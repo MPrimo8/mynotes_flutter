@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 
 import 'package:flutter_application_8_mprime8/constants/routes.dart';
+import 'package:flutter_application_8_mprime8/utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -39,12 +39,14 @@ class _LoginViewState extends State<LoginView> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        devtools.log('No user associated to that email');
+        await showErrorDialog(context, 'No user associated to that email');
       } else if (e.code == 'wrong-password') {
-        devtools.log('Wrong password entered');
+        await showErrorDialog(context, 'Wrong password entered');
       } else {
-        devtools.log(e.code);
+        await showErrorDialog(context, 'Error: ${e.code}');
       }
+    } catch (e) {
+      await showErrorDialog(context, e.toString());
     }
   }
 
