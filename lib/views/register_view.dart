@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 
 import 'package:flutter_application_8_mprime8/constants/routes.dart';
+import 'package:flutter_application_8_mprime8/utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -31,17 +31,23 @@ class _RegisterViewState extends State<RegisterView> {
 
   void signUp(String email, String password) async {
     try {
-      final credentials = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      devtools.log(credentials.toString());
+      final user = FirebaseAuth.instance.currentUser;
+      await user?.sendEmailVerification();
+      Navigator.of(context).pushNamed(verifyEmailRoute);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        devtools.log('Weak password');
+        await showErrorDialog(context, 'Weak password');
       } else if (e.code == 'email-already-in-use') {
-        devtools.log('Email already registered');
+        await showErrorDialog(context, 'Email is already in use');
       } else if (e.code == 'invalid-email') {
-        devtools.log('Invalid email entered');
+        await showErrorDialog(context, 'Invalid email address');
+      } else {
+        await showErrorDialog(context, 'Error: ${e.code}');
       }
+    } catch (e) {
+      await showErrorDialog(context, e.toString());
     }
   }
 
@@ -68,7 +74,9 @@ class _RegisterViewState extends State<RegisterView> {
             ),
           ),
           TextButton(
-              onPressed: () => signUp(_email.text, _password.text),
+              onPressed: () {
+                signUp(_email.text, _password.text);
+              },
               child: const Text('Register')),
           TextButton(
               onPressed: () => {
