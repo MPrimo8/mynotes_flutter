@@ -1,10 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_8_mprime8/firebase_options.dart';
 import 'package:flutter_application_8_mprime8/services/auth/auth_exceptions.dart';
 import 'package:flutter_application_8_mprime8/services/auth/auth_provider.dart';
 import 'package:flutter_application_8_mprime8/services/auth/auth_user.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
+  @override
+  Future<void> initialize() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
   @override
   Future<AuthUser> createUser(
       {required String email, required String password}) async {

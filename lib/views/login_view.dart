@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_8_mprime8/constants/routes.dart';
+import 'package:flutter_application_8_mprime8/services/auth/auth_exceptions.dart';
+import 'package:flutter_application_8_mprime8/services/auth/auth_service.dart';
 import 'package:flutter_application_8_mprime8/utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -31,10 +32,9 @@ class _LoginViewState extends State<LoginView> {
 
   void signIn(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      final user = FirebaseAuth.instance.currentUser;
-      if (user?.emailVerified ?? false) {
+      await AuthService.firebase().logIn(email: email, password: password);
+      final user = AuthService.firebase().currentUser;
+      if (user?.isEmailVerified ?? false) {
         Navigator.of(context).pushNamedAndRemoveUntil(
           notesRoute,
           (route) => false,
@@ -45,16 +45,12 @@ class _LoginViewState extends State<LoginView> {
           (route) => false,
         );
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        await showErrorDialog(context, 'No user associated to that email');
-      } else if (e.code == 'wrong-password') {
-        await showErrorDialog(context, 'Wrong password entered');
-      } else {
-        await showErrorDialog(context, 'Error: ${e.code}');
-      }
-    } catch (e) {
-      await showErrorDialog(context, e.toString());
+    } on UserNotFoundAuthException {
+      await showErrorDialog(context, 'No user associated to that email');
+    } on WrongPasswordAuthException {
+      await showErrorDialog(context, 'Wrong password entered');
+    } on GenericAuthException {
+      await showErrorDialog(context, 'Authentication error');
     }
   }
 
