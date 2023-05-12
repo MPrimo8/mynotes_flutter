@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_application_8_mprime8/services/auth/auth_exceptions.dart';
 import 'package:flutter_application_8_mprime8/services/auth/auth_provider.dart';
 import 'package:flutter_application_8_mprime8/services/auth/auth_user.dart';
