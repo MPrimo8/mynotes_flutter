@@ -54,37 +54,50 @@ class _RegisterViewState extends State<RegisterView> {
         appBar: AppBar(
           title: const Text('Register'),
         ),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(hintText: 'Email'),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: 'Password',
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Create an account to start writing your notes!'),
+              TextField(
+                controller: _email,
+                autocorrect: false,
+                autofocus: true,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(hintText: 'Email'),
               ),
-            ),
-            TextButton(
-                onPressed: () async {
-                  final email = _email.text;
-                  final password = _password.text;
-                  context
-                      .read<AuthBloc>()
-                      .add(AuthEventRegister(email, password));
-                },
-                child: const Text('Register')),
-            TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(const AuthEventLogOut());
-                },
-                child: const Text('Already registered? Login here!')),
-          ],
+              TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  hintText: 'Password',
+                ),
+              ),
+              Center(
+                child: Column(
+                  children: [
+                    TextButton(
+                        onPressed: () async {
+                          final email = _email.text;
+                          final password = _password.text;
+                          context
+                              .read<AuthBloc>()
+                              .add(AuthEventRegister(email, password));
+                        },
+                        child: const Text('Register')),
+                    TextButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(const AuthEventLogOut());
+                        },
+                        child: const Text('Already registered? Login here!')),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
