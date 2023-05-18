@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_application_8_mprime8/constants/routes.dart';
 import 'package:flutter_application_8_mprime8/services/auth/auth_exceptions.dart';
-import 'package:flutter_application_8_mprime8/services/auth/auth_service.dart';
 import 'package:flutter_application_8_mprime8/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_application_8_mprime8/services/auth/bloc/auth_event.dart';
 import 'package:flutter_application_8_mprime8/services/auth/bloc/auth_state.dart';
@@ -51,21 +49,28 @@ class _RegisterViewState extends State<RegisterView> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Register'),
-        ),
+        resizeToAvoidBottomInset: false,
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 60),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Create an account to start writing your notes!'),
-              TextField(
-                controller: _email,
-                autocorrect: false,
-                autofocus: true,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(hintText: 'Email'),
+              const CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage('assets/icon/icon.png'),
+              ),
+              const Text(
+                'MyNotes',
+                style: TextStyle(fontSize: 40, fontFamily: 'DancingScript'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: TextField(
+                  controller: _email,
+                  autocorrect: false,
+                  autofocus: true,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(hintText: 'Email'),
+                ),
               ),
               TextField(
                 controller: _password,
@@ -79,20 +84,29 @@ class _RegisterViewState extends State<RegisterView> {
               Center(
                 child: Column(
                   children: [
-                    TextButton(
-                        onPressed: () async {
-                          final email = _email.text;
-                          final password = _password.text;
-                          context
-                              .read<AuthBloc>()
-                              .add(AuthEventRegister(email, password));
-                        },
-                        child: const Text('Register')),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: TextButton(
+                          onPressed: () async {
+                            final email = _email.text;
+                            final password = _password.text;
+                            context
+                                .read<AuthBloc>()
+                                .add(AuthEventRegister(email, password));
+                          },
+                          child: const Text('Register')),
+                    ),
                     TextButton(
                         onPressed: () {
                           context.read<AuthBloc>().add(const AuthEventLogOut());
                         },
                         child: const Text('Already registered? Login here!')),
+                    const Padding(
+                      padding: EdgeInsets.all(40.0),
+                      child: Text(
+                          'Create an account to start writing your notes!',
+                          textAlign: TextAlign.center),
+                    ),
                   ],
                 ),
               ),

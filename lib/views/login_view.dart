@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_application_8_mprime8/constants/routes.dart';
 import 'package:flutter_application_8_mprime8/services/auth/auth_exceptions.dart';
-import 'package:flutter_application_8_mprime8/services/auth/auth_service.dart';
 import 'package:flutter_application_8_mprime8/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_application_8_mprime8/services/auth/bloc/auth_event.dart';
 import 'package:flutter_application_8_mprime8/services/auth/bloc/auth_state.dart';
 import 'package:flutter_application_8_mprime8/utilities/dialogs/error_dialog.dart';
-import 'package:flutter_application_8_mprime8/utilities/dialogs/loading_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginView extends StatefulWidget {
@@ -51,28 +48,38 @@ class _LoginViewState extends State<LoginView> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Login'),
-        ),
+        resizeToAvoidBottomInset: false,
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 60),
           child: Column(
             children: [
-              const Text(
-                  'Log in to your account in order to manage your notes!'),
-              TextField(
-                controller: _email,
-                autocorrect: false,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(hintText: 'Email'),
+              const CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage('assets/icon/icon.png'),
               ),
-              TextField(
-                controller: _password,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: const InputDecoration(
-                  hintText: 'Password',
+              const Text(
+                'MyNotes',
+                style: TextStyle(fontSize: 40, fontFamily: 'DancingScript'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: TextField(
+                  controller: _email,
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(hintText: 'Email'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: TextField(
+                  controller: _password,
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: const InputDecoration(
+                    hintText: 'Password',
+                  ),
                 ),
               ),
               TextButton(
@@ -98,6 +105,12 @@ class _LoginViewState extends State<LoginView> {
                             .add(const AuthEventShouldRegister())
                       },
                   child: const Text('Not registered yet? Register here!')),
+              const Padding(
+                padding: EdgeInsets.only(top: 60),
+                child: Text(
+                    'Log in to your account in order to manage your notes!',
+                    textAlign: TextAlign.center),
+              ),
             ],
           ),
         ),

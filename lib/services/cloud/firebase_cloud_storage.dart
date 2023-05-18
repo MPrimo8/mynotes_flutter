@@ -15,40 +15,38 @@ class FirebaseCloudStorage {
   }
 
   Future<void> updateNote(
-      {required String documentId, required String text}) async {
+      {required String documentId,
+      required String text,
+      required int colorType}) async {
     try {
-      await notes.doc(documentId).update({textFieldName: text});
+      await notes
+          .doc(documentId)
+          .update({textFieldName: text, colorTypeFieldName: colorType});
     } catch (e) {
       throw CouldNotUpdateNoteException();
     }
   }
 
-  Stream<Iterable<CloudNote>> allNotes({required String ownerUserId}) =>
-      notes.snapshots().map((event) => event.docs
-          .map((doc) => CloudNote.fromSnapshot(doc))
-          .where((note) => note.ownerUserId == ownerUserId));
-
-  Future<Iterable<CloudNote>> getNotes({required String ownerUserId}) async {
-    try {
-      return await notes
-          .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
-          .get()
-          .then(
-            (value) => value.docs.map((doc) => CloudNote.fromSnapshot(doc)),
-          );
-    } catch (e) {
-      throw CouldNotGetAllNotesException();
-    }
+  Stream<Iterable<CloudNote>> allNotes({required String ownerUserId}) {
+    final allNotes = notes
+        .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudNote.fromSnapshot(doc)));
+    return allNotes;
   }
 
   Future<CloudNote> createNewNote({required String ownerUserId}) async {
     final document = await notes.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: '',
+      colorTypeFieldName: 4294951175,
     });
     final fetchedNote = await document.get();
     return CloudNote(
-        documentId: fetchedNote.id, ownerUserId: ownerUserId, text: '');
+        documentId: fetchedNote.id,
+        ownerUserId: ownerUserId,
+        text: '',
+        colorType: 4294951175);
   }
 
   static final FirebaseCloudStorage _shared =

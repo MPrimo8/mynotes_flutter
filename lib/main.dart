@@ -12,15 +12,14 @@ import 'package:flutter_application_8_mprime8/views/notes/notes_view.dart';
 import 'package:flutter_application_8_mprime8/views/register_view.dart';
 import 'package:flutter_application_8_mprime8/views/verify_email_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bloc/bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
     title: 'Flutter Demo',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
+    theme: ThemeData(),
+    darkTheme: ThemeData.dark(),
+    themeMode: ThemeMode.system,
     home: BlocProvider<AuthBloc>(
       create: (context) => AuthBloc(FirebaseAuthProvider()),
       child: const HomePage(),

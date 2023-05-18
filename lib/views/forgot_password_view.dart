@@ -44,21 +44,28 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         }
       }),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Forgot Password'),
-        ),
+        resizeToAvoidBottomInset: false,
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 60),
           child: Column(
             children: [
+              const CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage('assets/icon/icon.png'),
+              ),
               const Text(
-                  'If you forgot your password, simply enter your email and we will send you a password reset link.'),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                autofocus: true,
-                controller: _controller,
-                decoration:
-                    const InputDecoration(hintText: 'Your email address...'),
+                'MyNotes',
+                style: TextStyle(fontSize: 40, fontFamily: 'DancingScript'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 10),
+                child: TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  autofocus: true,
+                  controller: _controller,
+                  decoration:
+                      const InputDecoration(hintText: 'Your email address...'),
+                ),
               ),
               TextButton(
                   onPressed: () {
@@ -73,6 +80,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     context.read<AuthBloc>().add(const AuthEventLogOut());
                   },
                   child: const Text('Back to login page')),
+              const Padding(
+                padding: EdgeInsets.only(top: 58.0),
+                child: Text(
+                  'If you forgot your password, simply enter your email and we will send you a password reset link.',
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
         ),

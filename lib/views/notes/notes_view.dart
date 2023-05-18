@@ -31,7 +31,7 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My notes'),
+        title: const Text('MyNotes'),
         actions: [
           IconButton(
               onPressed: () {
@@ -69,6 +69,12 @@ class _NotesViewState extends State<NotesView> {
                   notes: allNotes,
                   onDeleteNote: (note) async {
                     await _notesService.deleteNote(documentId: note.documentId);
+                  },
+                  onModifyColor: (note, colorType) async {
+                    await _notesService.updateNote(
+                        documentId: note.documentId,
+                        text: note.text,
+                        colorType: colorType);
                   },
                   onTap: (note) {
                     Navigator.of(context).pushNamed(
