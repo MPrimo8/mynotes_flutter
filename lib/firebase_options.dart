@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1032890588746',
     projectId: 'flutter-app-backend-8',
     storageBucket: 'flutter-app-backend-8.appspot.com',
-    iosClientId: '1032890588746-32idl0ujktd5koo0ahhkqj270dseiqtv.apps.googleusercontent.com',
-    iosBundleId: 'com.example.flutterApplication8Mprime8',
+    iosClientId:
+        '1032890588746-32idl0ujktd5koo0ahhkqj270dseiqtv.apps.googleusercontent.com',
+    iosBundleId: 'com.mprime8.flutterApplication8Mprime8',
   );
 }
