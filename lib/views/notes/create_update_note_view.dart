@@ -88,7 +88,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('New Note'),
+          title: const Text('Write Your Thoughts'),
           actions: [
             IconButton(
               onPressed: () async {
@@ -103,23 +103,26 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
             )
           ],
         ),
-        body: FutureBuilder(
-          future: createOrGetExistingNote(context),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                _setUpTextControllerListener();
-                return TextField(
-                  controller: _textController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                      hintText: 'Start writing your note!'),
-                );
-              default:
-                return const CircularProgressIndicator();
-            }
-          },
+        body: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: FutureBuilder(
+            future: createOrGetExistingNote(context),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                  _setUpTextControllerListener();
+                  return TextField(
+                    controller: _textController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                        hintText: 'Start writing your note!'),
+                  );
+                default:
+                  return const CircularProgressIndicator();
+              }
+            },
+          ),
         ));
   }
 }
